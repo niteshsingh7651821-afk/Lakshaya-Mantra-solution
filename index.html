@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakshaya Mantra Solution - Job Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            --secondary-color: #ff9800;
+            --accent-color: #4caf50;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+        }
+        
+        .hindi-text {
+            font-family: 'Nirmala UI', 'Segoe UI', sans-serif;
+        }
+        
+        .language-switch {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .job-card {
+            transition: transform 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            background: white;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .job-card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+        }
+        
+        .job-card-body {
+            padding: 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 10px auto;
+        }
+        
+        .fees-section {
+            background-color: #e9ecef;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .contact-info {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .how-to-apply {
+            padding: 40px 0;
+        }
+        
+        .step-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            height: 100%;
+            background: white;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 30px 0;
+        }
+        
+        .apply-btn {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .apply-btn:hover {
+            background-color: #388e3c;
+        }
+        
+        .refund-notice {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .job-filter {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .payment-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .payment-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #f1f1f1;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .upi-id {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switch -->
+    <div class="language-switch">
+        <button class="btn btn-sm btn-outline-primary" id="languageToggle">हिंदी / English</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+               
+                <span class="english-text">Lakshaya Mantra Solution</span>
+                <span class="hindi-text d-none">लक्ष्य मंत्र सोल्यूशन</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link english-text" href="#home">Home</a>
+                        <a class="nav-link hindi-text d-none" href="#home">होम</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link english-text" href="#jobs">Jobs</a>
+                        <a class="nav-link hindi-text d-none" href="#jobs">नौकरियां</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link english-text" href="#fees">Fees & Refund</a>
+                        <a class="nav-link hindi-text d-none" href="#fees">फीस और वापसी</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link english-text" href="#apply">How to Apply</a>
+                        <a class="nav-link hindi-text d-none" href="#apply">आवेदन कैसे करें</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link english-text" href="#contact">Contact</a>
+                        <a class="nav-link hindi-text d-none" href="#contact">संपर्क</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1 class="english-text">Find Your Dream Job Today!</h1>
+            <h1 class="hindi-text d-none">अपनी Dream Job आज ही पाएं!</h1>
+            
+            <p class="lead mt-3 english-text">
+                We provide job opportunities for 12th pass graduates in various sectors including market management, business development, back office, and call center.
+            </p>
+            <p class="lead mt-3 hindi-text d-none">
+                हम विभिन्न क्षेत्रों में 12वीं पास स्नातकों के लिए नौकरी के अवसर प्रदान करते हैं, जिनमें मार्केट मैनेजमेंट, बिजनेस डेवलपमेंट, बैक ऑफिस और कॉल सेंटर शामिल हैं।
+            </p>
+            
+            <a href="#jobs" class="btn btn-primary btn-lg mt-4 english-text">Browse Jobs</a>
+            <a href="#jobs" class="btn btn-primary btn-lg mt-4 hindi-text d-none">नौकरियां देखें</a>
+        </div>
+    </section>
+
+    <!-- Jobs Section -->
+    <section id="jobs" class="py-5">
+        <div class="container">
+            <h2 class="section-title english-text">Available Jobs</h2>
+            <h2 class="section-title hindi-text d-none">उपलब्ध नौकरियां</h2>
+            
+            <!-- Job Filter -->
+            <div class="job-filter">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="jobSearch" placeholder="Search jobs...">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="jobCategory">
+                            <option value="all">All Categories</option>
+                            <option value="management">Market Management</option>
+                            <option value="business">Business Development</option>
+                            <option value="backoffice">Back Office</option>
+                            <option value="callcenter">Call Center</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" id="jobContainer">
+                <!-- Job Cards will be dynamically generated -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-primary english-text" id="loadMoreJobs">Load More Jobs</button>
+                <button class="btn btn-outline-primary hindi-text d-none" id="loadMoreJobs">और नौकरियां देखें</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fees Section -->
+    <section id="fees" class="py-5">
+        <div class="container">
+            <h2 class="section-title english-text">Application Fees & Refund Policy</h2>
+            <h2 class="section-title hindi-text d-none">आवेदन शुल्क और वापसी नीति</h2>
+            
+            <div class="fees-section">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center">
+                        <h2 class="english-text">₹500</h2>
+                        <p class="english-text">One-time application fee</p>
+                        <h2 class="hindi-text d-none">₹500</h2>
+                        <p class="hindi-text d-none">एक बार का आवेदन शुल्क</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="english-text">Payment Methods:</h4>
+                        <ul class="english-text">
+                            <li>UPI Payment (PhonePe, Google Pay, Paytm)</li>
+                            <li>Bank Transfer</li>
+                            <li>Cash Payment at Office</li>
+                        </ul>
+                        
+                        <h4 class="hindi-text d-none">भुगतान के तरीके:</h4>
+                        <ul class="hindi-text d-none">
+                            <li>UPI भुगतान (PhonePe, Google Pay, Paytm)</li>
+                            <li>बैंक ट्रांसफर</li>
+                            <li>कार्यालय में नकद भुगतान</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Payment Options -->
+                <div class="mt-5">
+                    <h4 class="text-center mb-4 english-text">Pay via UPI</h4>
+                    <h4 class="text-center mb-4 hindi-text d-none">UPI के माध्यम से भुगतान करें</h4>
+                    
+                    <div class="payment-options">
+                        <div class="payment-card">
+                            <h5 class="english-text">Scan QR Code</h5>
+                            <h5 class="hindi-text d-none">QR कोड स्कैन करें</h5>
+                            <img src="/storage/emulated/0/Pictures/IMG_20250905_032300.jpg""alt="QR Code" width="200">
+                               
+                               
+             
+                            <p class="english-text">Scan the QR code with any UPI app to pay</p>
+                            <p class="hindi-text d-none">भुगतान करने के लिए किसी भी UPI ऐप से QR कोड स्कैन करें</p>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <h5 class="english-text">UPI ID</h5>
+                            <h5 class="hindi-text d-none">UPI आईडी</h5>
+                            <div class="upi-id">paytmqr5k2vcx@ptys</div>
+                            <p class="english-text">Send payment to this UPI ID</p>
+                            <p class="hindi-text d-none">इस UPI आईडी पर भुगतान भेजें</p>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <h5 class="english-text">Phone Number</h5>
+                            <h5 class="hindi-text d-none">फोन नंबर</h5>
+                            <div class="upi-id">7651823525</div>
+                            <p class="english-text">Send payment to this number</p>
+                            <p class="hindi-text d-none">इस नंबर पर भुगतान भेजें</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="refund-notice mt-4">
+                    <h4 class="english-text"><i class="fas fa-info-circle"></i> Refund Policy</h4>
+                    <p class="english-text">If a candidate is not selected for any position, the application fee of ₹500 will be fully refunded within 7-10 business days.</p>
+                    
+                    <h4 class="hindi-text d-none"><i class="fas fa-info-circle"></i> धन वापसी नीति</h4>
+                    <p class="hindi-text d-none">यदि किसी उम्मीदवार का किसी भी पद के लिए चयन नहीं किया जाता है, तो आवेदन शुल्क ₹500 पूरी तरह से 7-10 कारोबारी दिनों के भीतर वापस कर दिया जाएगा।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Apply Section -->
+    <section id="apply" class="how-to-apply py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title english-text">How to Apply</h2>
+            <h2 class="section-title hindi-text d-none">आवेदन कैसे करें</h2>
+            
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h4 class="english-text">Select Job</h4>
+                        <p class="english-text">Choose from available job positions</p>
+                        <h4 class="hindi-text d-none">नौकरी चुनें</h4>
+                        <p class="hindi-text d-none">उपलब्ध नौकरी पदों में से चुनें</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h4 class="english-text">Pay Fees</h4>
+                        <p class="english-text">Pay ₹500 application fee</p>
+                        <h4 class="hindi-text d-none">फीस भरें</h4>
+                        <p class="hindi-text d-none">₹500 आवेदन शुल्क भुगतान करें</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h4 class="english-text">Upload Screenshot</h4>
+                        <p class="english-text">Upload payment screenshot</p>
+                        <h4 class="hindi-text d-none">स्क्रीनशॉट अपलोड करें</h4>
+                        <p class="hindi-text d-none">भुगतान का स्क्रीनशॉट अपलोड करें</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h4 class="english-text">Submit Form</h4>
+                        <p class="english-text">Complete and submit job application</p>
+                        <h4 class="hindi-text d-none">फॉर्म जमा करें</h4>
+                        <p class="hindi-text d-none">नौकरी आवेदन पूरा करें और जमा करें</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="english-text">Interviews are conducted both online and at our office location</p>
+                <p class="hindi-text d-none">इंटरव्यू ऑनलाइन और हमारे office location पर आयोजित किए जाते हैं</p>
+                
+                <button class="btn btn-primary mt-3 english-text" data-bs-toggle="modal" data-bs-target="#applicationModal">Start Application</button>
+                <button class="btn btn-primary mt-3 hindi-text d-none" data-bs-toggle="modal" data-bs-target="#applicationModal">आवेदन शुरू करें</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-info">
+        <div class="container">
+            <h2 class="text-center mb-4 english-text">Contact Us</h2>
+            <h2 class="text-center mb-4 hindi-text d-none">संपर्क करें</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="english-text">Office Address:</h4>
+                    <p class="english-text">Gomti Nagar 3/460, Vishwas Khand Rd,<br>Opposite to Nehru Enclave, Vishwas Khand,<br>Gomti Nagar, Lucknow, Uttar Pradesh 226010</p>
+                    
+                    <h4 class="hindi-text d-none">Office पता:</h4>
+                    <p class="hindi-text d-none">गोमती नगर 3/460, विश्वास खंड रोड,<br>नेहरू एन्क्लेव के सामने, विश्वास खंड,<br>गोमती नगर, लखनऊ, उत्तर प्रदेश 226010</p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="english-text">Contact Details:</h4>
+                    <p class="english-text"><i class="fas fa-phone-alt me-2"></i> Call or Message: <a href="tel:9264938151" class="text-white">9264938151</a></p>
+                    <p class="english-text"><i class="fas fa-envelope me-2"></i> Email: info@lakshayamantra.com</p>
+                    
+                    <h4 class="hindi-text d-none">संपर्क विवरण:</h4>
+                    <p class="hindi-text d-none"><i class="fas fa-phone-alt me-2"></i> कॉल या मैसेज: <a href="tel:9264938151" class="text-white">9264938151</a></p>
+                    <p class="hindi-text d-none"><i class="fas fa-envelope me-2"></i> ईमेल: info@lakshayamantra.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="english-text">Lakshaya Mantra Solution</h5>
+                    <h5 class="hindi-text d-none">लक्ष्य मंत्र सोल्यूशन</h5>
+                    <p class="english-text">Your gateway to employment opportunities</p>
+                    <p class="hindi-text d-none">रोजगार के अवसरों का आपका gateway</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="english-text">&copy; 2023 Lakshaya Mantra Solution. All rights reserved.</p>
+                    <p class="hindi-text d-none">&copy; 2023 लक्ष्य मंत्र सोल्यूशन। सर्वाधिकार सुरक्षित।</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Modal -->
+    <div class="modal fade" id="applicationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title english-text">Job Application Form</h5>
+                    <h5 class="modal-title hindi-text d-none">नौकरी आवेदन फॉर्म</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="jobApplicationForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="english-text">Full Name</label>
+                                <label class="hindi-text d-none">पूरा नाम</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="english-text">Email Address</label>
+                                <label class="hindi-text d-none">ईमेल पता</label>
+                                <input type="email" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="english-text">Phone Number</label>
+                                <label class="hindi-text d-none">फोन नंबर</label>
+                                <input type="tel" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="english-text">Select Job</label>
+                                <label class="hindi-text d-none">नौकरी चुनें</label>
+                                <select class="form-select" required>
+                                    <option value="">Select a job</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="english-text">Payment Screenshot</label>
+                                <label class="hindi-text d-none">भुगतान स्क्रीनशॉट</label>
+                                <input type="file" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <span class="english-text">Close</span>
+                        <span class="hindi-text d-none">बंद करें</span>
+                    </button>
+                    <button type="submit" form="jobApplicationForm" class="btn btn-primary">
+                        <span class="english-text">Submit Application</span>
+                        <span class="hindi-text d-none">आवेदन जमा करें</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Job data
+        const jobs = [
+            {
+                title: "Market Management Executive",
+                titleHindi: "मार्केट मैनेजमेंट एक्जीक्यूटिव",
+                category: "management",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Manage market operations and client relationships.",
+                descriptionHindi: "मार्केट ऑपरेशन और क्लाइंट रिलेशनशिप प्रबंधित करें।"
+            },
+            {
+                title: "Business Development Associate",
+                titleHindi: "बिजनेस डेवलपमेंट एसोसिएट",
+                category: "business",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Identify new business opportunities and generate leads.",
+                descriptionHindi: "नए व्यवसाय के अवसरों की पहचान करें और लीड जनरेट करें।"
+            },
+            {
+                title: "Back Office Assistant",
+                titleHindi: "बैक ऑफिस असिस्टेंट",
+                category: "backoffice",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Handle data entry, documentation, and administrative tasks.",
+                descriptionHindi: "डेटा एंट्री, दस्तावेज़ीकरण और प्रशासनिक कार्य संभालें।"
+            },
+            {
+                title: "Call Center Representative",
+                titleHindi: "कॉल सेंटर प्रतिनिधि",
+                category: "callcenter",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Handle customer inquiries and provide support.",
+                descriptionHindi: "ग्राहकों की inquiries संभालें और सहायता प्रदान करें।"
+            },
+            {
+                title: "Sales Executive",
+                titleHindi: "सेल्स एक्जीक्यूटिव",
+                category: "management",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Promote and sell company products/services.",
+                descriptionHindi: "कंपनी के उत्पादों/सेवाओं को promote और sell करें।"
+            },
+            {
+                title: "Data Entry Operator",
+                titleHindi: "डेटा एंट्री ऑपरेटर",
+                category: "backoffice",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Enter data into computer systems and maintain databases.",
+                descriptionHindi: "कंप्यूटर सिस्टम में डेटा दर्ज करें और डेटाबेस बनाए रखें।"
+            },
+            {
+                title: "Customer Support Executive",
+                titleHindi: "कस्टमर सपोर्ट एक्जीक्यूटिव",
+                category: "callcenter",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Assist customers with product issues and inquiries.",
+                descriptionHindi: "ग्राहकों को product issues और inquiries में सहायता करें।"
+            },
+            {
+                title: "Office Assistant",
+                titleHindi: "ऑफिस असिस्टेंट",
+                category: "backoffice",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Provide general administrative and clerical support.",
+                descriptionHindi: "सामान्य प्रशासनिक और क्लेरिकल सहायता प्रदान करें।"
+            },
+            {
+                title: "Telecaller",
+                titleHindi: "टेलीकॉलर",
+                category: "callcenter",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Make outbound calls to potential customers.",
+                descriptionHindi: "संभावित ग्राहकों को आउटबाउंड कॉल करें।"
+            },
+            {
+                title: "Field Sales Representative",
+                titleHindi: "फील्ड सेल्स प्रतिनिधि",
+                category: "business",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Meet customers in person to demonstrate products.",
+                descriptionHindi: "उत्पादों को demonstrate करने के लिए ग्राहकों से व्यक्तिगत रूप से मिलें।"
+            },
+            {
+                title: "Marketing Coordinator",
+                titleHindi: "मार्केटिंग समन्वयक",
+                category: "management",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Assist in organizing marketing campaigns and events.",
+                descriptionHindi: "मार्केटिंग campaigns और events आयोजित करने में सहायता करें।"
+            },
+            {
+                title: "Front Desk Executive",
+                titleHindi: "फ्रंट डेस्क एक्जीक्यूटिव",
+                category: "backoffice",
+                eligibility: "12th Pass",
+                experience: "Freshers can apply",
+                description: "Greet visitors and handle front office operations.",
+                descriptionHindi: "आगंतुकों का अभिवादन करें और फ्रंट ऑफिस operations संभालें।"
+            }
+        ];
+
+        // Language toggle functionality
+        document.getElementById('languageToggle').addEventListener('click', function() {
+            const hindiTexts = document.querySelectorAll('.hindi-text');
+            const englishTexts = document.querySelectorAll('.english-text');
+            
+            hindiTexts.forEach(element => {
+                element.classList.toggle('d-none');
+            });
+            
+            englishTexts.forEach(element => {
+                element.classList.toggle('d-none');
+            });
+            
+            // Change button text
+            if (this.textContent === 'हिंदी / English') {
+                this.textContent = 'English / हिंदी';
+            } else {
+                this.textContent = 'हिंदी / English';
+            }
+            
+            // Regenerate job cards with correct language
+            renderJobs();
+        });
+
+        // Function to render jobs
+        function renderJobs(filteredJobs = null) {
+            const jobContainer = document.getElementById('jobContainer');
+            jobContainer.innerHTML = '';
+            
+            const jobsToRender = filteredJobs || jobs;
+            
+            jobsToRender.forEach(job => {
+                const isHindiMode = document.querySelector('.hindi-text:not(.d-none)');
+                
+                const jobCard = document.createElement('div');
+                jobCard.className = 'col-md-6 col-lg-4';
+                jobCard.innerHTML = `
+                    <div class="job-card">
+                        <div class="job-card-header">
+                            <h5>${isHindiMode ? job.titleHindi : job.title}</h5>
+                        </div>
+                        <div class="job-card-body">
+                            <p><strong>${isHindiMode ? 'योग्यता:' : 'Eligibility:'}</strong> ${job.eligibility}</p>
+                            <p><strong>${isHindiMode ? 'अनुभव:' : 'Experience:'}</strong> ${isHindiMode ? 'फ्रेशर्स आवेदन कर सकते हैं' : job.experience}</p>
+                            <p>${isHindiMode ? job.descriptionHindi : job.description}</p>
+                            <button class="apply-btn" data-bs-toggle="modal" data-bs-target="#applicationModal">
+                                ${isHindiMode ? 'अभी आवेदन करें' : 'Apply Now'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                jobContainer.appendChild(jobCard);
+            });
+            
+            // Also update the job select in the modal
+            const jobSelect = document.querySelector('#applicationModal select');
+            jobSelect.innerHTML = '<option value="">Select a job</option>';
+            jobsToRender.forEach(job => {
+                const option = document.createElement('option');
+                option.value = job.title;
+                option.textContent = isHindiMode ? job.titleHindi : job.title;
+                jobSelect.appendChild(option);
+            });
+        }
+
+        // Filter jobs based on search and category
+        function filterJobs() {
+            const searchText = document.getElementById('jobSearch').value.toLowerCase();
+            const category = document.getElementById('jobCategory').value;
+            
+            const filteredJobs = jobs.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(searchText) || 
+                                    job.titleHindi.includes(searchText) ||
+                                    job.description.toLowerCase().includes(searchText) ||
+                                    job.descriptionHindi.includes(searchText);
+                
+                const matchesCategory = category === 'all' || job.category === category;
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderJobs(filteredJobs);
+        }
+
+        // Initial render
+        renderJobs();
+        
+        // Set up event listeners for filtering
+        document.getElementById('jobSearch').addEventListener('input', filterJobs);
+        document.getElementById('jobCategory').addEventListener('change', filterJobs);
+        
+        // Load more jobs functionality
+        document.getElementById('loadMoreJobs').addEventListener('click', function() {
+            alert('More jobs would be loaded here in a real implementation.');
+        });
+
+        // Form submission
+        document.getElementById('jobApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Application submitted successfully! We will contact you soon.');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('applicationModal'));
+            modal.hide();
+        });
+    </script>
+</body>
+</html>
