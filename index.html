@@ -210,7 +210,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-               
                 <span class="english-text">Lakshaya Mantra Solution</span>
                 <span class="hindi-text d-none">लक्ष्य मंत्र सोल्यूशन</span>
             </a>
@@ -337,10 +336,10 @@
                         <div class="payment-card">
                             <h5 class="english-text">Scan QR Code</h5>
                             <h5 class="hindi-text d-none">QR कोड स्कैन करें</h5>
-                            <img src="IMG_20250905_032300.jpg""alt="QR Code" width="200">
-                               
-                               
-             
+                            <div class="qr-code">
+                                <!-- Replace with your actual QR code image -->
+                                <span>QR Code</span>
+                            </div>
                             <p class="english-text">Scan the QR code with any UPI app to pay</p>
                             <p class="hindi-text d-none">भुगतान करने के लिए किसी भी UPI ऐप से QR कोड स्कैन करें</p>
                         </div>
@@ -352,8 +351,8 @@
                             <p class="english-text">Send payment to this UPI ID</p>
                             <p class="hindi-text d-none">इस UPI आईडी पर भुगतान भेजें</p>
                         </div>
-                        
-                        
+                    </div>
+                </div>
                 
                 <div class="refund-notice mt-4">
                     <h4 class="english-text"><i class="fas fa-info-circle"></i> Refund Policy</h4>
@@ -496,7 +495,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="english-text">Select Job</label>
                                 <label class="hindi-text d-none">नौकरी चुनें</label>
-                                <select class="form-select" required>
+                                <select class="form-select" id="modalJobSelect" required>
                                     <option value="">Select a job</option>
                                     <!-- Options will be populated dynamically -->
                                 </select>
@@ -640,10 +639,16 @@
             }
         ];
 
+        // Global variable to track current language
+        let isHindiMode = false;
+
         // Language toggle functionality
         document.getElementById('languageToggle').addEventListener('click', function() {
             const hindiTexts = document.querySelectorAll('.hindi-text');
             const englishTexts = document.querySelectorAll('.english-text');
+            
+            // Toggle language mode
+            isHindiMode = !isHindiMode;
             
             hindiTexts.forEach(element => {
                 element.classList.toggle('d-none');
@@ -662,7 +667,13 @@
             
             // Regenerate job cards with correct language
             renderJobs();
+            updateModalJobSelect();
         });
+
+        // Function to check if Hindi mode is active
+        function checkHindiMode() {
+            return document.querySelector('.hindi-text:not(.d-none)') !== null;
+        }
 
         // Function to render jobs
         function renderJobs(filteredJobs = null) {
@@ -670,10 +681,9 @@
             jobContainer.innerHTML = '';
             
             const jobsToRender = filteredJobs || jobs;
+            isHindiMode = checkHindiMode();
             
             jobsToRender.forEach(job => {
-                const isHindiMode = document.querySelector('.hindi-text:not(.d-none)');
-                
                 const jobCard = document.createElement('div');
                 jobCard.className = 'col-md-6 col-lg-4';
                 jobCard.innerHTML = `
@@ -694,11 +704,16 @@
                 
                 jobContainer.appendChild(jobCard);
             });
-            
-            // Also update the job select in the modal
-            const jobSelect = document.querySelector('#applicationModal select');
+        }
+
+        // Update job select in modal
+        function updateModalJobSelect() {
+            const jobSelect = document.querySelector('#modalJobSelect');
             jobSelect.innerHTML = '<option value="">Select a job</option>';
-            jobsToRender.forEach(job => {
+            
+            isHindiMode = checkHindiMode();
+            
+            jobs.forEach(job => {
                 const option = document.createElement('option');
                 option.value = job.title;
                 option.textContent = isHindiMode ? job.titleHindi : job.title;
@@ -710,6 +725,8 @@
         function filterJobs() {
             const searchText = document.getElementById('jobSearch').value.toLowerCase();
             const category = document.getElementById('jobCategory').value;
+            
+            isHindiMode = checkHindiMode();
             
             const filteredJobs = jobs.filter(job => {
                 const matchesSearch = job.title.toLowerCase().includes(searchText) || 
@@ -727,6 +744,7 @@
 
         // Initial render
         renderJobs();
+        updateModalJobSelect();
         
         // Set up event listeners for filtering
         document.getElementById('jobSearch').addEventListener('input', filterJobs);
@@ -743,6 +761,11 @@
             alert('Application submitted successfully! We will contact you soon.');
             const modal = bootstrap.Modal.getInstance(document.getElementById('applicationModal'));
             modal.hide();
+        });
+
+        // Update modal job select when modal is shown
+        document.getElementById('applicationModal').addEventListener('show.bs.modal', function() {
+            updateModalJobSelect();
         });
     </script>
 </body>
